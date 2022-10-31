@@ -1,0 +1,10 @@
+--- 
+    - name: INSTALL JAVA 
+      yum:
+        name: java-1.8.0-openjdk
+        state: present
+
+    - name: INSTALL PYTHON 
+      yum:
+        name: python3
+        state: present

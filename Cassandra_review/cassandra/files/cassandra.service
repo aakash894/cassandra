@@ -1,0 +1,18 @@
+[Unit]
+Description=Cassandra
+After=network.target
+[Service]
+PIDFile=/opt/cassandra/PID
+User=cassandra
+Group=cassandra
+ExecStart=/opt/cassandra/bin/cassandra -f -p /opt/cassandra/PID
+StandardOutput=journal
+StandardError=journal
+LimitNOFILE=100000
+LimitMEMLOCK=infinity
+LimitNPROC=32768
+LimitAS=infinity
+Restart=always
+[Install]
+WantedBy=multi-user.target
+

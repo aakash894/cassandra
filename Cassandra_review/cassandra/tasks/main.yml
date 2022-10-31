@@ -1,0 +1,85 @@
+---
+# tasks file for cassandra
+
+    - name: Including debian tasks
+      include_tasks: debian.yml
+      when: ansible_os_family == "Debian"
+
+    - name: Including RedHat tasks
+      include_tasks: radhat.yml
+      when: ansible_os_family == "RedHat"
+
+    - name: CREATE CASSANDRA GROUP 
+      group:
+        name: "{{ group_name }}"
+        state: present
+
+    - name: CREATE CASSANDRA USER 
+      user:
+        name: "{{ user_name }}"
+        state: present
+        group: "{{ group_name }}"
+        shell: /sbin/nologin
+
+    - name: CREATING CASSANDRA HOME
+      file:
+        path: "{{ cassandra_home }}"
+        state: directory
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+        mode: "{{ mode }}"
+
+    - name: DOWNLOAD SOURCE FILE
+      get_url:
+        url: https://dlcdn.apache.org/cassandra/{{ version }}/apache-cassandra-{{ version }}-bin.tar.gz
+        dest: /tmp/
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+        mode: "{{ mode }}"
+
+    - name: EXTRACT CASSANDRA SOURCE FILE
+      unarchive:
+        src: /tmp/apache-cassandra-{{ version }}-bin.tar.gz
+        dest: "{{ cassandra_home }}"
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+        extra_opts: [--strip-components=1]
+        remote_src: true
+
+    - name: CREATING CASSANDRA DATA DIRECTORY 
+      file:
+        path: "{{ item }}"
+        state: directory
+        recurse: true
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+        mode: "{{ mode }}"
+      with_items:
+          - "{{ cassandra_data_directory }}"
+          - "{{ cassandra_hints_directory }}"
+          - "{{ cassandra_commitlog_directory }}"
+          - "{{ cassandra_saved_caches_directory }}"
+
+    - name: Export path
+      shell: "echo 'PATH=$PATH:{{ cassandra_path }}' > /etc/profile.d/cassandra_path.sh && . /etc/profile.d/cassandra_path.sh"
+      changed_when: true
+
+    - name: COPY STARTUP SCRIPT
+      copy:
+        src: cassandra.service 
+        dest: /etc/systemd/system/cassandra.service
+        owner: root
+        group: root
+        mode: "{{ mode }}"
+
+    - name: INSTALL THE CONFIGRATION FILE 
+      template:
+        src: cassandra.yaml.j2
+        dest: '{{ cassandra_home }}/conf/cassandra.yaml'
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+        mode: "{{ mode }}"
+      notify:
+          - daemon_reload
+          - enable_cassandra
+          - started_cassandra

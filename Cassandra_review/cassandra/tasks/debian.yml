@@ -1,0 +1,10 @@
+--- 
+    - name: INSTALL JAVA 
+      apt:
+        name: default-jdk
+        state: present
+
+    - name: INSTALL PYTHON 
+      apt:
+        name: python3
+        state: present

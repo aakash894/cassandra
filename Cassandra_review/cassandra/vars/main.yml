@@ -1,0 +1,34 @@
+---
+# vars file for cassandra
+
+# DEFINE VERSION OF CASSANDRA
+
+version: 4.0.7 
+mode: 0755
+
+# USER & GROUP VARS
+
+group_name: cassandra
+user_name: cassandra
+
+# CASSANDRA DIRECTORY STRUCTURE
+
+cassandra_home: /opt/cassandra
+cassandra_path: /opt/cassandra/bin
+cassandra_data_directory: /var/lib/cassandra/data
+cassandra_hints_directory: /var/lib/cassandra/data/hints
+cassandra_commitlog_directory: /var/lib/cassandra/data/commitlogs
+cassandra_saved_caches_directory: /var/lib/cassandra/data/saved_caches
+
+# CASSANDRA CONFIGRATIONS VARS
+
+cluster_name: MyCluster
+num_tokens: 16
+allocate_tokens_for_local_replication_factor: 3
+seeds: "{{ groups['seed-nodes'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
+storage_port: 7000
+ssl_storage_port: 7001
+listen_address: "{{ ansible_default_ipv4.address }}"
+native_transport_port: 9042
+rpc_address: "{{ ansible_default_ipv4.address }}"
+endpoint_snitch: RackInferringSnitch

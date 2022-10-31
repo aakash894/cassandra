@@ -1,0 +1,21 @@
+---
+# handlers file for cassandra
+
+- name: daemon_reload
+  systemd:
+    daemon_reload: yes
+    
+- name: enable_cassandra
+  service:
+    name: cassandra
+    state: reloaded
+
+- name: stopped_cassandra
+  service:
+    name: cassandra
+    state: stopped
+
+- name: started_cassandra
+  service:
+    name: cassandra
+    state: started

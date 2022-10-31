@@ -1,0 +1,7 @@
+---
+ - name: INSTALL CASSANDRA & CONFIGURE IT 
+   hosts: seed-nodes
+   become: true
+   roles:
+      - role: '../cassandra'
+      #- role: '/home/aakash/cassandra/Cassandra_review/cassandra'
