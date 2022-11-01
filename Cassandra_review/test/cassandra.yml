@@ -4,4 +4,4 @@
    become: true
    roles:
       - role: '../cassandra'
-      #- role: '/home/aakash/cassandra/Cassandra_review/cassandra'
+      
