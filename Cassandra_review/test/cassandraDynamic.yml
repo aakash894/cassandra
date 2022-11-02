@@ -1,0 +1,9 @@
+---
+ - name: INSTALL CASSANDRA & CONFIGURE IT 
+   hosts: all
+   become: true
+   vars:
+    ansible_ssh_user: ubuntu
+    ansible_ssh_private_key_file: ~/newkey.pem
+   roles:
+      - role: '../cassandra'
