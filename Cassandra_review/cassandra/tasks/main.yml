@@ -6,7 +6,7 @@
       when: ansible_os_family == "Debian"
 
     - name: INCLUDING REDHAT TASKS
-      include_tasks: radhat.yml
+      include_tasks: redhat.yml
       when: ansible_os_family == "RedHat"
 
     - name: CREATE CASSANDRA GROUP 
