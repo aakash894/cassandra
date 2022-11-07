@@ -35,8 +35,8 @@ Role Variables
 | ssl_storage_port | 7001 | 
 | listen_address | default ipv4 address | 
 | native_transport_port | 9042 | 
-| rpc_address | default ipv4 address |   
-| endpoint_snitch | RackInferringSnitch |
+| rpc_address | localhost |   
+| endpoint_snitch | GossipingPropertyFileSnitch |
 
 Directory Layout
 ----------------

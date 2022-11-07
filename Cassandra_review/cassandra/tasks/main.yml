@@ -64,6 +64,13 @@
         group: root
         mode: "{{ mode }}"
 
+    - name: INSERT/UPDATE JVM_OPTS IN CASSANDRA ENV FILE 
+      blockinfile:
+        path: '{{ cassandra_home }}/conf/cassandra-env.sh'
+        block: |
+          JVM_OPTS="$JVM_OPTS -Dcassandra.ignore_dc=true"
+          JVM_OPTS="$JVM_OPTS -Dcassandra.ignore_rack=true"
+          
     - name: INSTALL THE CONFIGRATION FILE 
       template:
         src: cassandra.yaml.j2

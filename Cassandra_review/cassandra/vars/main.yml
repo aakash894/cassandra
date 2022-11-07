@@ -25,11 +25,10 @@ cassandra_saved_caches_directory: /var/lib/cassandra/data/saved_caches
 cluster_name: MyCluster
 num_tokens: 16
 allocate_tokens_for_local_replication_factor: 3
-#seeds: "{{ groups['seed-nodes'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
 seeds: "{{ groups['seed-nodes'] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | join(',') }}"
 storage_port: 7000
 ssl_storage_port: 7001
 listen_address: "{{ ansible_default_ipv4.address }}"
 native_transport_port: 9042
-rpc_address: "{{ ansible_default_ipv4.address }}"
-endpoint_snitch: RackInferringSnitch
+rpc_address: localhost
+endpoint_snitch: GossipingPropertyFileSnitch
