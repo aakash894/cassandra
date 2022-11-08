@@ -3,10 +3,8 @@
       apt:
         name: default-jdk
         state: present
-        update_cache: yes
 
     - name: INSTALL PYTHON 
       apt:
         name: python3
         state: present
-        update_cache: yes

@@ -1,5 +1,5 @@
 [seed-nodes]
-node1 ansible_host=44.203.144.181 ansible_user=ec2-user ansible_ssh_private_key_file=~/Downloads/us-east-1.pem
-node2 ansible_host=54.174.181.222 ansible_user=ec2-user ansible_ssh_private_key_file=~/Downloads/us-east-1.pem
-node3 ansible_host=54.174.181.222 ansible_user=ec2-user ansible_ssh_private_key_file=~/Downloads/us-east-1.pem
+node1 ansible_host=44.203.117.170 ansible_user=centos ansible_ssh_private_key_file=~/Downloads/us-east-1.pem
+node2 ansible_host=54.86.8.48 ansible_user=centos ansible_ssh_private_key_file=~/Downloads/us-east-1.pem
+node3 ansible_host=3.92.132.18 ansible_user=centos ansible_ssh_private_key_file=~/Downloads/us-east-1.pem
 

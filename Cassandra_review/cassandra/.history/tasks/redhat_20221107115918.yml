@@ -1,12 +1,10 @@
 --- 
     - name: INSTALL JAVA 
-      apt:
-        name: default-jdk
+      yum:
+        name: java-1.8.0-openjdk
         state: present
-        update_cache: yes
 
     - name: INSTALL PYTHON 
-      apt:
+      yum:
         name: python3
         state: present
-        update_cache: yes
