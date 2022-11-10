@@ -72,14 +72,6 @@
         group: root
         mode: "{{ mode }}"
 
-    - name: INSTALL THE JMX EXPORTER 
-      copy:
-        src: "jmx_exporter.yml"
-        dest: '{{ cassandra_home }}/conf/jmx_exporter.yml'
-        owner: "{{ user_name }}"
-        group: "{{ group_name }}"
-        mode: "{{ mode }}" 
-
     - name: INSERT/UPDATE JVM_OPTS IN CASSANDRA ENV FILE 
       blockinfile:
         path: '{{ cassandra_home }}/conf/cassandra-env.sh'
@@ -88,6 +80,13 @@
           JVM_OPTS="$JVM_OPTS -Dcassandra.ignore_rack=true"
           JVM_OPTS="$JVM_OPTS -javaagent:{{ cassandra_home }}/lib/jmx_prometheus_javaagent-0.17.2.jar=7070:{{ cassandra_home }}/conf/jmx_exporter.yml"
 
+    - name: INSTALL THE CONFIGRATION FILE 
+      copy:
+        src: "jmx_exporter.yml"
+        dest: '{{ cassandra_home }}/conf/jmx_exporter.yml'
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+        mode: "{{ mode }}"      
           
     - name: INSTALL THE CONFIGRATION FILE 
       template:

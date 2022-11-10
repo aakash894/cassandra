@@ -72,7 +72,7 @@
         group: root
         mode: "{{ mode }}"
 
-    - name: INSTALL THE JMX EXPORTER 
+    - name: INSTALL THE CONFIGRATION FILE 
       copy:
         src: "jmx_exporter.yml"
         dest: '{{ cassandra_home }}/conf/jmx_exporter.yml'

@@ -56,14 +56,6 @@
       shell: "echo 'PATH=$PATH:{{ cassandra_path }}' > /etc/profile.d/cassandra_path.sh && . /etc/profile.d/cassandra_path.sh"
       changed_when: true
 
-    - name: DOWNLOAD JAR FILE
-      get_url:
-        url: https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.17.2/jmx_prometheus_javaagent-0.17.2.jar
-        dest: '{{ cassandra_home }}/lib'
-        owner: "{{ user_name }}"
-        group: "{{ group_name }}"
-        mode: "0644" 
-
     - name: COPY SERVICE FILE
       copy:
         src: cassandra.service 
@@ -72,22 +64,12 @@
         group: root
         mode: "{{ mode }}"
 
-    - name: INSTALL THE JMX EXPORTER 
-      copy:
-        src: "jmx_exporter.yml"
-        dest: '{{ cassandra_home }}/conf/jmx_exporter.yml'
-        owner: "{{ user_name }}"
-        group: "{{ group_name }}"
-        mode: "{{ mode }}" 
-
     - name: INSERT/UPDATE JVM_OPTS IN CASSANDRA ENV FILE 
       blockinfile:
         path: '{{ cassandra_home }}/conf/cassandra-env.sh'
         block: |
           JVM_OPTS="$JVM_OPTS -Dcassandra.ignore_dc=true"
           JVM_OPTS="$JVM_OPTS -Dcassandra.ignore_rack=true"
-          JVM_OPTS="$JVM_OPTS -javaagent:{{ cassandra_home }}/lib/jmx_prometheus_javaagent-0.17.2.jar=7070:{{ cassandra_home }}/conf/jmx_exporter.yml"
-
           
     - name: INSTALL THE CONFIGRATION FILE 
       template:
