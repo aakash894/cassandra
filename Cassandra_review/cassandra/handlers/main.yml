@@ -19,3 +19,8 @@
   service:
     name: cassandra
     state: started
+
+- name: restarted_cassandra
+  service:
+    name: cassandra
+    state: restarted

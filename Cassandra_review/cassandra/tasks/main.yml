@@ -98,5 +98,5 @@
         mode: "{{ mode }}"
       notify:
           - daemon_reload
-          - enable_cassandra
           - started_cassandra
+          - restarted_cassandra
