@@ -1,6 +1,10 @@
 ---
 # vars file for cassandra
 
+node_version: 1.3.1
+base_url_node: https://github.com/prometheus/node_exporter/releases/download
+
+
 # DEFINE VERSION OF CASSANDRA
 
 version: 4.0.7 

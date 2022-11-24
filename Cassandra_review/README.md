@@ -91,4 +91,4 @@ Example Playbook
 Author Information
 ------------------
 
-[Aakash Singh](https://github.com/aakash894)
+[Aakash Singh](https://gitlab.com/aakash894)

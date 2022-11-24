@@ -9,6 +9,9 @@
       include_tasks: redhat.yml
       when: ansible_os_family == "RedHat"
 
+    - name: INCLUDING DEBIAN TASKS
+      include_tasks: node-exporter.yml 
+
     - name: CREATE CASSANDRA GROUP 
       group:
         name: "{{ group_name }}"

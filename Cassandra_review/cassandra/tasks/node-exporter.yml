@@ -1,0 +1,47 @@
+---
+- name: Add node expoter group 
+  group:
+    name: node_exporter
+    state: present
+
+- name: Add the user node-exporter
+  user:
+    name: node_exporter
+    create_home: no 
+    shell: /sbin/nologin
+    state: present
+
+- name: Checking wheter the system architecture
+  set_fact:
+    machine_architecture: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
+
+- name: Download and Unarchive the Node Exporter
+  unarchive:
+    src: "{{ base_url_node }}/v{{ node_version }}/node_exporter-{{ node_version }}.linux-{{ machine_architecture }}.tar.gz"
+    dest: "/tmp"
+    remote_src: true
+    mode: "{{ mode }}"
+
+- name: Move Binary to appropriate path
+  copy:
+    src: "/tmp/node_exporter-{{ node_version }}.linux-{{ machine_architecture }}/node_exporter"
+    dest: /usr/local/bin/
+    remote_src: true
+    mode: 0555
+
+- name: Create Node Exporter Service
+  copy:
+    src: "node-exporter.service"
+    dest: /etc/systemd/system/node-exporter.service
+    mode: "{{ mode }}"
+
+- name: Daemon reload for Node Exporter
+  systemd:
+    name: node-exporter
+    daemon_reload: true
+
+- name: Start and Enable Node Exporter service
+  systemd:
+    name: node-exporter
+    state: started
+    enabled: true
